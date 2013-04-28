@@ -1,7 +1,7 @@
 from pygame import *
 import pygame
 import sys
-class GameObject:
+class GameObject(object):
     def __init__(self, image, height, hspeed, vspeed):
         self.hor_speed = hspeed
         self.ver_speed = vspeed
@@ -13,10 +13,20 @@ class GameObject:
     def move(self):
         self.pos = self.pos.move(self.hor_speed, self.ver_speed)
 
-screen = pygame.display.set_mode((640, 480))
-player = pygame.image.load('ball.gif')
-background = pygame.image.load('tegan.jpg')
-screen.blit(background, (0, 0))
+class BackgroundSprite(pygame.sprite.Sprite):
+    def __init__(self, img, xposition):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load(img)
+
+        self.rect = (xposition,0)
+
+screen = pygame.display.set_mode((896, 480))
+player = pygame.image.load('guitar_small.png')
+tegan = BackgroundSprite('tegan.jpg', 0)
+sara = BackgroundSprite('sara.jpg', 396)
+backgrounds = pygame.sprite.Group(tegan, sara)
+backgrounds.draw(screen)
 o = GameObject(player, 40, 0, 0)
 while 1:
     for event in pygame.event.get():
@@ -33,7 +43,7 @@ while 1:
                 o.set_speed(20,o.ver_speed)
         if event.type == pygame.KEYUP:
             o.set_speed(0,0)
-    screen.blit(background, o.pos, o.pos)
+    #screen.blit(tegan, o.pos, o.pos)
     o.move()
     screen.blit(o.image, o.pos)
     pygame.display.update()
