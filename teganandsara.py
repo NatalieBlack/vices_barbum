@@ -43,7 +43,7 @@ while 1:
                 o.set_speed(20,o.ver_speed)
         if event.type == pygame.KEYUP:
             o.set_speed(0,0)
-    #screen.blit(tegan, o.pos, o.pos)
+    backgrounds.draw(screen)
     o.move()
     screen.blit(o.image, o.pos)
     pygame.display.update()
